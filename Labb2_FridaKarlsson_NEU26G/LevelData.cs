@@ -40,11 +40,11 @@ namespace Labb2_FridaKarlsson_NEU26G
 
                     x++;
                 }
+
                 foreach (LevelElement element in elements)
                 {
                     element.Draw();
                 }
-
             }
             catch
             {
