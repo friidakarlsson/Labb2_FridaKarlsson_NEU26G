@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Xml.Linq;
+﻿
 
 namespace Labb2_FridaKarlsson_NEU26G
 {
@@ -18,9 +14,25 @@ namespace Labb2_FridaKarlsson_NEU26G
             DefenceDice = new Dice(1, 8, 5);
         }
 
-        public override void UpDate()
+        public override void Update(LevelData leveldata)
         {
+            int enemyNextMoveX = xPosition;
+            int enemyNextMoveY = yPosition;
 
+            double snakeDistance = Math.Sqrt(((xPosition - leveldata.PlayerCurrentPosition.xPosition) * (xPosition - leveldata.PlayerCurrentPosition.xPosition)) + ((yPosition - leveldata.PlayerCurrentPosition.yPosition) * (yPosition - leveldata.PlayerCurrentPosition.yPosition)));
+
+            if (snakeDistance > 2) return;
+
+            if (enemyNextMoveX < leveldata.PlayerCurrentPosition.xPosition) enemyNextMoveX--;
+            if (enemyNextMoveX > leveldata.PlayerCurrentPosition.xPosition) enemyNextMoveX++;
+            if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition) enemyNextMoveY--;
+            if (enemyNextMoveY > leveldata.PlayerCurrentPosition.yPosition) enemyNextMoveY++;
+
+            if (MakeAMove(enemyNextMoveX, enemyNextMoveY, leveldata))
+            {
+                xPosition = enemyNextMoveX;
+                yPosition = enemyNextMoveY;
+            }
         }
     }
 }

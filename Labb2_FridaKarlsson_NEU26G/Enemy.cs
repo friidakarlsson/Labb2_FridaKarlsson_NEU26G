@@ -13,6 +13,6 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public Enemy(int x, int y) :base(x, y) { }
 
-        public abstract void UpDate();
+        public abstract void Update(LevelData leveldata);
     }
 }

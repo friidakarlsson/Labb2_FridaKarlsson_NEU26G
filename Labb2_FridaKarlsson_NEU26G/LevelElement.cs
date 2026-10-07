@@ -21,6 +21,23 @@ namespace Labb2_FridaKarlsson_NEU26G
         {
             Console.SetCursorPosition(xPosition, yPosition); Console.ForegroundColor = color; Console.Write(character); Console.ResetColor();
         }
+
+        public bool MakeAMove(int nextMoveX, int nextMoveY, LevelData leveldata)
+        {
+            foreach (LevelElement element in leveldata.Elements)
+            {
+                if (element.xPosition == nextMoveX && element.yPosition == nextMoveY)
+                {
+                    if (element is Wall) return false;
+                    if (element is Enemy && this is Enemy) return false;
+                }
+            }
+
+            if (this is Enemy && nextMoveX == leveldata.PlayerCurrentPosition.xPosition && nextMoveY == leveldata.PlayerCurrentPosition.yPosition) return false;
+
+            return true;
+        }
+
     }
 
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace Labb2_FridaKarlsson_NEU26G
 {
@@ -8,6 +6,7 @@ namespace Labb2_FridaKarlsson_NEU26G
     {
         public int PlayerStartX = 0;
         public int PlayerStartY = 0;
+        public Player PlayerCurrentPosition { get; set; }
         private List<LevelElement> elements;
         public List<LevelElement> Elements
         {

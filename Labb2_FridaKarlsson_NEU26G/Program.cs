@@ -6,6 +6,7 @@ LevelData levelData = new LevelData();
 levelData.Load("Level1.txt");
 
 Player player = new Player(levelData.PlayerStartX, levelData.PlayerStartY);
+levelData.PlayerCurrentPosition = player;
 
 while (true)
 {
@@ -26,33 +27,22 @@ while (true)
 	{
 		case ConsoleKey.RightArrow:
 		case ConsoleKey.D:
-			{ playerNextMoveX++; break; }
+			 playerNextMoveX++; break; 
 		case ConsoleKey.LeftArrow:
 		case ConsoleKey.A:
-			{ playerNextMoveX--; break; }
+			 playerNextMoveX--; break; 
 		case ConsoleKey.DownArrow:
 		case ConsoleKey.S:
-			{ playerNextMoveY ++; break; }
+			 playerNextMoveY ++; break; 
 		case ConsoleKey.UpArrow:
 		case ConsoleKey.W:
-			{ playerNextMoveY --; break; }
+			 playerNextMoveY --; break; 
 		default:  break;
 	}
-	bool canMove = true;
 
-	foreach (LevelElement element in levelData.Elements)
+	if (player.MakeAMove(playerNextMoveX, playerNextMoveY, levelData))
 	{
-		if (element.xPosition == playerNextMoveX && element.yPosition == playerNextMoveY)
-		{
-			if (element is Wall)
-			{
-				canMove = false;
-			}
-		}
-	}
-	if (canMove)
-	{
-		player.xPosition = playerNextMoveX;
-		player.yPosition = playerNextMoveY;
-	}
+        player.xPosition = playerNextMoveX;
+        player.yPosition = playerNextMoveY;
+    }
 }

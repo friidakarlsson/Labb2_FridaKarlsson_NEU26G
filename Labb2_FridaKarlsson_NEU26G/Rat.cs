@@ -7,7 +7,7 @@ namespace Labb2_FridaKarlsson_NEU26G
 {
     internal class Rat : Enemy
     {
-        public Rat(int x, int y) :base(x, y)
+        public Rat(int x, int y) : base(x, y)
         {
             Name = "Rat";
             Health = 10;
@@ -17,22 +17,26 @@ namespace Labb2_FridaKarlsson_NEU26G
             DefenceDice = new Dice(1, 6, 1);
         }
 
-        public override void UpDate()
+        public override void Update(LevelData leveldata)
         {
-            bool canMove = false;
-
             int enemyNextMoveX = xPosition;
             int enemyNextMoveY = yPosition;
 
             Random random = new Random();
             int randomMoveNumber = random.Next(1, 5);
 
-            switch(randomMoveNumber)
+            switch (randomMoveNumber)
             {
-                case 1:  enemyNextMoveX++; break; 
-                case 2:  enemyNextMoveX--; break; 
-                case 3:  enemyNextMoveY++; break; 
-                case 4:  enemyNextMoveY--; break; 
+                case 1: enemyNextMoveX++; break;
+                case 2: enemyNextMoveX--; break;
+                case 3: enemyNextMoveY++; break;
+                case 4: enemyNextMoveY--; break;
+            }
+
+            if (MakeAMove(enemyNextMoveX, enemyNextMoveY, leveldata))
+            {
+                xPosition = enemyNextMoveX;
+                yPosition = enemyNextMoveY;
             }
         }
     }
