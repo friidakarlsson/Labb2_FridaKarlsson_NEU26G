@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
+﻿
 namespace Labb2_FridaKarlsson_NEU26G
 {
     internal class Rat : Enemy
