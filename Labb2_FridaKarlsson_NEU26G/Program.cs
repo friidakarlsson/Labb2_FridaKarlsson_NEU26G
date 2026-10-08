@@ -45,6 +45,17 @@ while (true)
         player.xPosition = playerNextMoveX;
         player.yPosition = playerNextMoveY;
     }
+	else
+	{
+		foreach (LevelElement element in levelData.Elements)
+		{
+			if (element is Enemy && playerNextMoveX == element.xPosition && playerNextMoveY == element.yPosition)
+			{
+				player.Attack((Enemy)element);
+				break;
+			}
+		}
+	}
 
 	foreach (LevelElement element in levelData.Elements)
 	{
@@ -54,3 +65,4 @@ while (true)
 		}
 	}
 }
+

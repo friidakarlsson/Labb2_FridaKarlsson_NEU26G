@@ -33,6 +33,13 @@ namespace Labb2_FridaKarlsson_NEU26G
                 xPosition = enemyNextMoveX;
                 yPosition = enemyNextMoveY;
             }
+            else
+            {
+                if (enemyNextMoveX == leveldata.PlayerCurrentPosition.xPosition && enemyNextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+                {
+                    Attack(leveldata.PlayerCurrentPosition);
+                }
+            }
         }
     }
 }
