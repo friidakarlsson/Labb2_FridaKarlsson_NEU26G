@@ -8,6 +8,7 @@ namespace Labb2_FridaKarlsson_NEU26G
         public int Health { get; set; }
         public Dice AttackDice { get; set; }
         public Dice DefenceDice { get; set; }
+        public bool WasInAFight { get; set; }
 
         public Enemy(int x, int y) : base(x, y) { }
 

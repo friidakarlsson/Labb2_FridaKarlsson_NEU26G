@@ -35,7 +35,6 @@ namespace Labb2_FridaKarlsson_NEU26G
 
                 if (damage > 0) { Health -= damage; }
             }
-
         }
     }
 }

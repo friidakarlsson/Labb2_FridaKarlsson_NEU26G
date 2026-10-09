@@ -10,14 +10,7 @@ levelData.PlayerCurrentPosition = player;
 
 while (true)
 {
-    Console.Clear();
-    Console.CursorVisible = false;
 
-    foreach (LevelElement element in levelData.Elements)
-	{
-		element.Draw();
-	}
-		player.Draw();
 
 		ConsoleKeyInfo pressedKey = Console.ReadKey(true);
 		int playerNextMoveX = player.xPosition;
@@ -52,6 +45,11 @@ while (true)
 			if (element is Enemy && playerNextMoveX == element.xPosition && playerNextMoveY == element.yPosition)
 			{
 				player.Attack((Enemy)element);
+				((Enemy)element).WasInAFight = true;
+				if (((Enemy)element).Health <= 0)
+				{
+					levelData.Elements.Remove(element);
+				}
 				break;
 			}
 		}
@@ -61,8 +59,24 @@ while (true)
 	{
 		if (element is Enemy)
 		{
+			if (((Enemy)element).WasInAFight) { continue; }
 			((Enemy)element).Update(levelData);
 		}
+	}
+
+    Console.Clear();
+    Console.CursorVisible = false;
+
+    foreach (LevelElement element in levelData.Elements)
+    {
+        element.Draw();
+    }
+    player.Draw();
+
+    if (player.Health <=0)
+	{
+        Console.WriteLine("GAME OVER");
+		break;
 	}
 }
 

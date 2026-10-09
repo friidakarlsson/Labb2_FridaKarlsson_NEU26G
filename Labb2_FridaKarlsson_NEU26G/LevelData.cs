@@ -47,7 +47,7 @@ namespace Labb2_FridaKarlsson_NEU26G
             }
             catch
             {
-
+                //Filenotfoundexception
             }
             
         }
