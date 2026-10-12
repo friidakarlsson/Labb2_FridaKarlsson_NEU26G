@@ -15,7 +15,6 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public override void Update(LevelData leveldata)
         {
-            WasInAFight = false;
             int enemyNextMoveX = xPosition;
             int enemyNextMoveY = yPosition;
 

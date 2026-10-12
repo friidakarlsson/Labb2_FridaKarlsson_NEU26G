@@ -8,6 +8,7 @@ namespace Labb2_FridaKarlsson_NEU26G
         public int yPosition { get; set; }
         public char character { get; set; }
         public ConsoleColor color { get; set; }
+        public bool DiscoveredWall { get; set; }
 
         public LevelElement(int x, int y)
         {

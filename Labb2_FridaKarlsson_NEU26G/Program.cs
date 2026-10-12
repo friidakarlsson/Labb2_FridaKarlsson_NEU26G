@@ -1,5 +1,6 @@
 ﻿
 using Labb2_FridaKarlsson_NEU26G;
+using System.Xml.Linq;
 
 LevelData levelData = new LevelData();
 
@@ -46,11 +47,7 @@ while (true)
 			{
 				player.Attack((Enemy)element);
 				((Enemy)element).WasInAFight = true;
-				if (((Enemy)element).Health <= 0)
-				{
-					levelData.Elements.Remove(element);
-				}
-				break;
+
 			}
 		}
 	}
@@ -64,13 +61,35 @@ while (true)
 		}
 	}
 
+	for (int i = levelData.Elements.Count -1 ; i >= 0 ; i--)
+	{
+		if (levelData.Elements[i] is Enemy && ((Enemy)levelData.Elements[i]).Health <= 0) 
+		{
+			levelData.Elements.RemoveAt(i);
+		}
+	}
+
     Console.Clear();
     Console.CursorVisible = false;
 
     foreach (LevelElement element in levelData.Elements)
     {
-        element.Draw();
+		double distanceToSurroundingElements = Math.Sqrt(Math.Pow(player.xPosition - element.xPosition, 2)+ Math.Pow(player.yPosition - element.yPosition, 2));
+        if (distanceToSurroundingElements <= 5 || element.DiscoveredWall)
+		{
+			element.Draw();
+			if (element is Wall) { element.DiscoveredWall = true; }
+		}
     }
+
+	foreach (LevelElement element in levelData.Elements)
+	{
+		if(element is Enemy)
+		{
+			((Enemy)element).WasInAFight = false;
+		}
+	}
+
     player.Draw();
 
     if (player.Health <=0)

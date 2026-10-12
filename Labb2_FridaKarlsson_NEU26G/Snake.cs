@@ -16,18 +16,30 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public override void Update(LevelData leveldata)
         {
-            WasInAFight = false;
+
             int enemyNextMoveX = xPosition;
             int enemyNextMoveY = yPosition;
 
-            double snakeDistance = Math.Sqrt(((xPosition - leveldata.PlayerCurrentPosition.xPosition) * (xPosition - leveldata.PlayerCurrentPosition.xPosition)) + ((yPosition - leveldata.PlayerCurrentPosition.yPosition) * (yPosition - leveldata.PlayerCurrentPosition.yPosition)));
+            double snakeDistance = Math.Sqrt(Math.Pow(xPosition - leveldata.PlayerCurrentPosition.xPosition, 2) + Math.Pow(yPosition - leveldata.PlayerCurrentPosition.yPosition, 2));
 
             if (snakeDistance > 2) return;
 
-            if (enemyNextMoveX < leveldata.PlayerCurrentPosition.xPosition) enemyNextMoveX--;
-            if (enemyNextMoveX > leveldata.PlayerCurrentPosition.xPosition) enemyNextMoveX++;
-            if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition) enemyNextMoveY--;
-            if (enemyNextMoveY > leveldata.PlayerCurrentPosition.yPosition) enemyNextMoveY++;
+            if (enemyNextMoveX < leveldata.PlayerCurrentPosition.xPosition)
+            {
+                enemyNextMoveX--;
+            }
+            else if (enemyNextMoveX > leveldata.PlayerCurrentPosition.xPosition)
+            {
+                enemyNextMoveX++;
+            }
+            else if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition)
+            {
+                enemyNextMoveY--;
+            }
+            else if (enemyNextMoveY > leveldata.PlayerCurrentPosition.yPosition)
+            {
+                enemyNextMoveY++;
+            }
 
             if (MakeAMove(enemyNextMoveX, enemyNextMoveY, leveldata))
             {
