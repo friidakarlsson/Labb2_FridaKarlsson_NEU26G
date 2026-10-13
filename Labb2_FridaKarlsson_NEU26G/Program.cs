@@ -1,6 +1,7 @@
 ﻿
 using Labb2_FridaKarlsson_NEU26G;
 
+
 Console.WriteLine("Write player name: ");
 string? playerName = Console.ReadLine();
 
@@ -18,7 +19,35 @@ player.Name = playerName;
 
 while (true)
 {
-	ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+	Console.Clear();
+    Console.CursorVisible = false;
+    Console.SetCursorPosition(0, 0);
+    Console.WriteLine($"Name: {player.Name}\t-\tHP: {player.Health.ToString().PadRight(3)}/100\t-\tTurn:{turns.ToString().PadRight(4)}");
+
+    foreach (LevelElement element in levelData.Elements)
+    {
+        double distanceToSurroundingElements = Math.Sqrt(Math.Pow(player.xPosition - element.xPosition, 2) + Math.Pow(player.yPosition - element.yPosition, 2));
+        if (distanceToSurroundingElements <= 5 || element.DiscoveredWall)
+        {
+            element.Draw();
+            if (element is Wall) 
+			{
+				element.DiscoveredWall = true; 
+			}
+        }
+    }
+
+    foreach (LevelElement element in levelData.Elements)
+    {
+        if (element is Enemy)
+        {
+            ((Enemy)element).WasInAFight = false;
+        }
+    }
+
+    player.Draw();
+
+    ConsoleKeyInfo pressedKey = Console.ReadKey(true);
 	int playerNextMoveX = player.xPosition;
 	int playerNextMoveY = player.yPosition;
 		
@@ -78,30 +107,7 @@ while (true)
 		}
 	}
 
-    Console.Clear();
-    Console.CursorVisible = false;
 
-	Console.WriteLine($"Name: {player.Name}	-	HP: {player.Health}/100		-	Turn:{turns}");
-
-	foreach (LevelElement element in levelData.Elements)
-    {
-		double distanceToSurroundingElements = Math.Sqrt(Math.Pow(player.xPosition - element.xPosition, 2)+ Math.Pow(player.yPosition - element.yPosition, 2));
-        if (distanceToSurroundingElements <= 5 || element.DiscoveredWall)
-		{
-			element.Draw();
-			if (element is Wall) { element.DiscoveredWall = true; }
-		}
-    }
-
-	foreach (LevelElement element in levelData.Elements)
-	{
-		if(element is Enemy)
-		{
-			((Enemy)element).WasInAFight = false;
-		}
-	}
-
-    player.Draw();
 
     if (player.Health <=0)
 	{

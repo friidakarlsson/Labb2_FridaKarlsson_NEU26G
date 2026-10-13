@@ -27,7 +27,7 @@ namespace Labb2_FridaKarlsson_NEU26G
                 if (element.xPosition == nextMoveX && element.yPosition == nextMoveY)
                 {
                     if (element is Wall) return false;
-                    if (element is Enemy && this is Enemy) return false;
+                    if (element is Enemy) return false;
                 }
             }
 
