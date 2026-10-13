@@ -1,21 +1,28 @@
 ﻿
 using Labb2_FridaKarlsson_NEU26G;
-using System.Xml.Linq;
+
+Console.WriteLine("Write player name: ");
+string? playerName = Console.ReadLine();
+
+playerName = string.IsNullOrWhiteSpace(playerName) ? "Player" : playerName;
+int turns = 0;
 
 LevelData levelData = new LevelData();
 
 levelData.Load("Level1.txt");
+Console.Clear();
 
 Player player = new Player(levelData.PlayerStartX, levelData.PlayerStartY);
 levelData.PlayerCurrentPosition = player;
+player.Name = playerName;
 
 while (true)
 {
-
-
-		ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-		int playerNextMoveX = player.xPosition;
-		int playerNextMoveY = player.yPosition;
+	ConsoleKeyInfo pressedKey = Console.ReadKey(true);
+	int playerNextMoveX = player.xPosition;
+	int playerNextMoveY = player.yPosition;
+		
+	turns++;
 
 	switch(pressedKey.Key)
 	{
@@ -38,6 +45,8 @@ while (true)
 	{
         player.xPosition = playerNextMoveX;
         player.yPosition = playerNextMoveY;
+
+		levelData.PlayerCurrentPosition = player;
     }
 	else
 	{
@@ -72,7 +81,9 @@ while (true)
     Console.Clear();
     Console.CursorVisible = false;
 
-    foreach (LevelElement element in levelData.Elements)
+	Console.WriteLine($"Name: {player.Name}	-	HP: {player.Health}/100		-	Turn:{turns}");
+
+	foreach (LevelElement element in levelData.Elements)
     {
 		double distanceToSurroundingElements = Math.Sqrt(Math.Pow(player.xPosition - element.xPosition, 2)+ Math.Pow(player.yPosition - element.yPosition, 2));
         if (distanceToSurroundingElements <= 5 || element.DiscoveredWall)

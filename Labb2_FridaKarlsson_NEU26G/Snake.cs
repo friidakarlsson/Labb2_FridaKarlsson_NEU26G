@@ -32,7 +32,8 @@ namespace Labb2_FridaKarlsson_NEU26G
             {
                 enemyNextMoveX++;
             }
-            else if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition)
+
+            if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition)
             {
                 enemyNextMoveY--;
             }
@@ -46,13 +47,38 @@ namespace Labb2_FridaKarlsson_NEU26G
                 xPosition = enemyNextMoveX;
                 yPosition = enemyNextMoveY;
             }
-            else
+            else if (MakeAMove(xPosition, enemyNextMoveY, leveldata))
             {
-                if (enemyNextMoveX == leveldata.PlayerCurrentPosition.xPosition && enemyNextMoveY == leveldata.PlayerCurrentPosition.yPosition)
-                {
-                    Attack(leveldata.PlayerCurrentPosition);
-                }
+                yPosition = enemyNextMoveY;
+                enemyNextMoveX = xPosition;
             }
+            else if (MakeAMove(enemyNextMoveX, yPosition, leveldata))
+            {
+                xPosition = enemyNextMoveX;
+                enemyNextMoveY = yPosition;
+            }
+            else if (MakeAMove(xPosition + 1, yPosition,leveldata))
+            {
+                xPosition = xPosition + 1;
+            }
+            else if (MakeAMove(xPosition, yPosition + 1, leveldata))
+            {
+                yPosition = yPosition + 1;
+            }
+            else if (MakeAMove(xPosition - 1, yPosition, leveldata))
+            {
+                xPosition = xPosition - 1;
+            }
+            else if (MakeAMove(xPosition, yPosition - 1, leveldata))
+            {
+                yPosition = yPosition - 1;
+            }
+
+            if (enemyNextMoveX == leveldata.PlayerCurrentPosition.xPosition && enemyNextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+            {
+                Attack(leveldata.PlayerCurrentPosition);
+            }
+
         }
     }
 }

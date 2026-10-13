@@ -17,7 +17,7 @@ namespace Labb2_FridaKarlsson_NEU26G
         }
         public void Draw()
         {
-            Console.SetCursorPosition(xPosition, yPosition); Console.ForegroundColor = color; Console.Write(character); Console.ResetColor();
+            Console.SetCursorPosition(xPosition, yPosition + 4); Console.ForegroundColor = color; Console.Write(character); Console.ResetColor();
         }
 
         public bool MakeAMove(int nextMoveX, int nextMoveY, LevelData leveldata)
@@ -31,7 +31,10 @@ namespace Labb2_FridaKarlsson_NEU26G
                 }
             }
 
-            if (this is Enemy && nextMoveX == leveldata.PlayerCurrentPosition.xPosition && nextMoveY == leveldata.PlayerCurrentPosition.yPosition) return false;
+            if (this is Enemy && nextMoveX == leveldata.PlayerCurrentPosition.xPosition && nextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+            {
+                return false;
+            }
 
             return true;
         }

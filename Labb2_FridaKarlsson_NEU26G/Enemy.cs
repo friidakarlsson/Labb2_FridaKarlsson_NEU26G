@@ -20,7 +20,10 @@ namespace Labb2_FridaKarlsson_NEU26G
             int playerAttack = player.DefenceDice.Throw();
             int damage =  enemyAttack - playerAttack;
 
-            if (damage > 0) { player.Health -= damage; }
+            if (damage > 0) 
+            { 
+                player.Health -= damage;
+            }
 
             if (player.Health > 0)
             {
@@ -28,7 +31,10 @@ namespace Labb2_FridaKarlsson_NEU26G
                 enemyAttack = DefenceDice.Throw();
                 damage = playerAttack - enemyAttack;
 
-                if (damage > 0) { Health -= damage; }
+                if (damage > 0) 
+                {
+                    Health -= damage; 
+                }
             }
         }
     }

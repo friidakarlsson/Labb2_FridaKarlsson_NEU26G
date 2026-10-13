@@ -11,7 +11,7 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public Player(int x, int y) : base(x, y)
         {
-            Name = "Player";
+            Name = string.Empty;
             Health = 100;
             color = ConsoleColor.Yellow;
             character = '@';
