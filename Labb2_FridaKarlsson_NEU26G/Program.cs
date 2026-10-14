@@ -13,9 +13,8 @@ LevelData levelData = new LevelData();
 levelData.Load("Level1.txt");
 Console.Clear();
 
-Player player = new Player(levelData.PlayerStartX, levelData.PlayerStartY);
-levelData.PlayerCurrentPosition = player;
-player.Name = playerName;
+Player player = new Player(levelData.PlayerStartX, levelData.PlayerStartY, playerName);
+levelData.PlayerPosition = player;
 
 while (true)
 {
@@ -75,7 +74,7 @@ while (true)
         player.xPosition = playerNextMoveX;
         player.yPosition = playerNextMoveY;
 
-		levelData.PlayerCurrentPosition = player;
+		levelData.PlayerPosition = player;
     }
 	else
 	{
@@ -85,7 +84,6 @@ while (true)
 			{
 				player.Attack((Enemy)element);
 				((Enemy)element).WasInAFight = true;
-
 			}
 		}
 	}

@@ -4,58 +4,53 @@ namespace Labb2_FridaKarlsson_NEU26G
 {
     internal class Snake : Enemy
     {
-        public Snake(int x, int y) : base(x, y)
+        public Snake(int x, int y) : base(x, y, 's', ConsoleColor.Green, "Snake", 25, new Dice(3, 4, 2), new Dice(1, 8, 5))
         {
-            Name = "Snake";
-            Health = 25;
-            color = ConsoleColor.Green;
-            character = 's';
-            AttackDice = new Dice(3, 4, 2);
-            DefenceDice = new Dice(1, 8, 5);
+
         }
 
-        public override void Update(LevelData leveldata)
+        public override string Update(LevelData leveldata)
         {
 
-            int enemyNextMoveX = xPosition;
-            int enemyNextMoveY = yPosition;
+            int nextMoveX = xPosition;
+            int nextMoveY = yPosition;
 
-            double snakeDistance = Math.Sqrt(Math.Pow(xPosition - leveldata.PlayerCurrentPosition.xPosition, 2) + Math.Pow(yPosition - leveldata.PlayerCurrentPosition.yPosition, 2));
+            double snakeDistance = Math.Sqrt(Math.Pow(xPosition - leveldata.PlayerPosition.xPosition, 2) + Math.Pow(yPosition - leveldata.PlayerPosition.yPosition, 2));
 
-            if (snakeDistance > 2) return;
+            if (snakeDistance > 2) return string.Empty;
 
-            if (enemyNextMoveX < leveldata.PlayerCurrentPosition.xPosition)
+            if (nextMoveX < leveldata.PlayerPosition.xPosition)
             {
-                enemyNextMoveX--;
+                nextMoveX--;
             }
-            else if (enemyNextMoveX > leveldata.PlayerCurrentPosition.xPosition)
+            else if (nextMoveX > leveldata.PlayerPosition.xPosition)
             {
-                enemyNextMoveX++;
-            }
-
-            if (enemyNextMoveY < leveldata.PlayerCurrentPosition.yPosition)
-            {
-                enemyNextMoveY--;
-            }
-            else if (enemyNextMoveY > leveldata.PlayerCurrentPosition.yPosition)
-            {
-                enemyNextMoveY++;
+                nextMoveX++;
             }
 
-            if (MakeAMove(enemyNextMoveX, enemyNextMoveY, leveldata))
+            if (nextMoveY < leveldata.PlayerPosition.yPosition)
             {
-                xPosition = enemyNextMoveX;
-                yPosition = enemyNextMoveY;
+                nextMoveY--;
             }
-            else if (MakeAMove(xPosition, enemyNextMoveY, leveldata))
+            else if (nextMoveY > leveldata.PlayerPosition.yPosition)
             {
-                yPosition = enemyNextMoveY;
-                enemyNextMoveX = xPosition;
+                nextMoveY++;
             }
-            else if (MakeAMove(enemyNextMoveX, yPosition, leveldata))
+
+            if (MakeAMove(nextMoveX, nextMoveY, leveldata))
             {
-                xPosition = enemyNextMoveX;
-                enemyNextMoveY = yPosition;
+                xPosition = nextMoveX;
+                yPosition = nextMoveY;
+            }
+            else if (MakeAMove(xPosition, nextMoveY, leveldata))
+            {
+                yPosition = nextMoveY;
+                nextMoveX = xPosition;
+            }
+            else if (MakeAMove(nextMoveX, yPosition, leveldata))
+            {
+                xPosition = nextMoveX;
+                nextMoveY = yPosition;
             }
             else if (MakeAMove(xPosition + 1, yPosition,leveldata))
             {
@@ -74,9 +69,9 @@ namespace Labb2_FridaKarlsson_NEU26G
                 yPosition = yPosition - 1;
             }
 
-            if (enemyNextMoveX == leveldata.PlayerCurrentPosition.xPosition && enemyNextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+            if (nextMoveX == leveldata.PlayerPosition.xPosition && nextMoveY == leveldata.PlayerPosition.yPosition)
             {
-                Attack(leveldata.PlayerCurrentPosition);
+                Attack(leveldata.PlayerPosition);
             }
 
         }

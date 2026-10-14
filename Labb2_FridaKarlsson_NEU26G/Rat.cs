@@ -1,19 +1,18 @@
 ﻿
+using System.Collections;
+using System.Drawing;
+using System.Xml.Linq;
+
 namespace Labb2_FridaKarlsson_NEU26G
 {
     internal class Rat : Enemy
     {
-        public Rat(int x, int y) : base(x, y)
+        public Rat(int x, int y) : base( x, y, 'r', ConsoleColor.Red, "Rat", 10, new Dice(1, 6, 3), new Dice(1, 6, 1))
         {
-            Name = "Rat";
-            Health = 10;
-            color = ConsoleColor.Red;
-            character = 'r';
-            AttackDice = new Dice(1, 6, 3);
-            DefenceDice = new Dice(1, 6, 1);
+
         }
 
-        public override void Update(LevelData leveldata)
+        public override string Update(LevelData leveldata)
         {
             int enemyNextMoveX = xPosition;
             int enemyNextMoveY = yPosition;
@@ -33,14 +32,18 @@ namespace Labb2_FridaKarlsson_NEU26G
             {
                 xPosition = enemyNextMoveX;
                 yPosition = enemyNextMoveY;
+               
             }
             else
             {
-                if (enemyNextMoveX == leveldata.PlayerCurrentPosition.xPosition && enemyNextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+                if (enemyNextMoveX == leveldata.PlayerPosition.xPosition && enemyNextMoveY == leveldata.PlayerPosition.yPosition)
                 {
-                    Attack(leveldata.PlayerCurrentPosition);
-                }
+                    string attackText = Attack(leveldata.PlayerPosition);
+                    return attackText;
+                }            
             }
+
+            return string.Empty;
         }
     }
 }

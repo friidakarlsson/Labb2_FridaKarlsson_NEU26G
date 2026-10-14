@@ -26,7 +26,7 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public override string ToString()
         {
-            return $"{numberOfDice}d{sidesPerDice}+{modifier}";
+            return $"({numberOfDice}d{sidesPerDice}+{modifier})";
         }
         }
     }

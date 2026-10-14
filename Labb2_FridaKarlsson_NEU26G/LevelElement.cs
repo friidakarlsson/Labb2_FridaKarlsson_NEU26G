@@ -10,10 +10,12 @@ namespace Labb2_FridaKarlsson_NEU26G
         public ConsoleColor color { get; set; }
         public bool DiscoveredWall { get; set; }
 
-        public LevelElement(int x, int y)
+        public LevelElement(int x, int y, char character, ConsoleColor color)
         {
             xPosition = x;
             yPosition = y;
+            this.character = character;
+            this.color = color;
         }
         public void Draw()
         {
@@ -31,7 +33,7 @@ namespace Labb2_FridaKarlsson_NEU26G
                 }
             }
 
-            if (this is Enemy && nextMoveX == leveldata.PlayerCurrentPosition.xPosition && nextMoveY == leveldata.PlayerCurrentPosition.yPosition)
+            if (this is Enemy && nextMoveX == leveldata.PlayerPosition.xPosition && nextMoveY == leveldata.PlayerPosition.yPosition)
             {
                 return false;
             }

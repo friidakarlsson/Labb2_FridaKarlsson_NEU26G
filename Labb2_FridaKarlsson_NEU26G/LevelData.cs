@@ -6,7 +6,7 @@ namespace Labb2_FridaKarlsson_NEU26G
     {
         public int PlayerStartX = 0;
         public int PlayerStartY = 0;
-        public Player PlayerCurrentPosition { get; set; }
+        public Player PlayerPosition { get; set; }
         private List<LevelElement> elements;
         public List<LevelElement> Elements
         {
