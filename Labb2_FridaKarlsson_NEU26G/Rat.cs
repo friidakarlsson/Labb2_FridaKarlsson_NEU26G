@@ -1,7 +1,4 @@
 ﻿
-using System.Collections;
-using System.Drawing;
-using System.Xml.Linq;
 
 namespace Labb2_FridaKarlsson_NEU26G
 {
@@ -12,7 +9,7 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         }
 
-        public override string Update(LevelData leveldata)
+        public override void Update(LevelData leveldata)
         {
             int enemyNextMoveX = xPosition;
             int enemyNextMoveY = yPosition;
@@ -37,12 +34,9 @@ namespace Labb2_FridaKarlsson_NEU26G
             {
                 if (enemyNextMoveX == leveldata.PlayerPosition.xPosition && enemyNextMoveY == leveldata.PlayerPosition.yPosition)
                 {
-                    string attackText = Attack(leveldata.PlayerPosition);
-                    return attackText;
+                    Attack(leveldata.PlayerPosition);
                 }            
             }
-
-            return string.Empty;
         }
     }
 }

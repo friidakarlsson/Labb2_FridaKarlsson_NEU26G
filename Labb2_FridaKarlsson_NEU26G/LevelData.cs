@@ -6,15 +6,12 @@ namespace Labb2_FridaKarlsson_NEU26G
     {
         public int PlayerStartX = 0;
         public int PlayerStartY = 0;
-        public Player PlayerPosition { get; set; }
-        private List<LevelElement> elements;
-        public List<LevelElement> Elements
-        {
-            get { return elements; }
-        }
+        public Player PlayerPosition { get; set; } = null!;
+        private List<LevelElement> elements = new List<LevelElement>();
+        public List<LevelElement> Elements => elements;
+
         public void Load(string filename)
         {
-            elements = new List<LevelElement>();
             try
             {
                 using StreamReader reader = new StreamReader(filename);
@@ -31,6 +28,7 @@ namespace Labb2_FridaKarlsson_NEU26G
                     {
                         case ' ': { x++; continue; }
                         case '\n': { x = 0; y++; continue; }
+                        case '\r': { continue; }
                         case '@': { PlayerStartX = x; PlayerStartY = y; x++; continue; }
                         case '#': { elements.Add(new Wall(x, y)); break; }
                         case 'r': { elements.Add(new Rat(x, y)); break; }
@@ -39,15 +37,10 @@ namespace Labb2_FridaKarlsson_NEU26G
 
                     x++;
                 }
-
-                foreach (LevelElement element in elements)
-                {
-                    element.Draw();
-                }
             }
-            catch
+            catch (FileNotFoundException)
             {
-                //Filenotfoundexception
+                Console.WriteLine("Filen hittades inte och programmet kan inte köras, vänligen kontakta support.");
             }
             
         }

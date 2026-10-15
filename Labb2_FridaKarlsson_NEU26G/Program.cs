@@ -1,30 +1,52 @@
 ﻿
 using Labb2_FridaKarlsson_NEU26G;
 
+Console.CursorVisible = false;
+Console.ForegroundColor = ConsoleColor.DarkCyan;
+Console.WriteLine("Welcome to the Dungeon Crawler! \nUse arrow keys to navigate (or WASD if you prefer), if you get bored - just press ESC. \n\nThe game will start in...");
+for (int i = 10; i >= 0; i--)
+{
+    Console.SetCursorPosition(0, 4);
+    Console.WriteLine($"{i} seconds".PadRight(Console.WindowWidth));
+    Thread.Sleep(1000);
+}
+Console.ResetColor();
+Console.Clear();
 
-Console.WriteLine("Write player name: ");
+Console.CursorVisible = true;
+Console.WriteLine("Write your name: ");
 string? playerName = Console.ReadLine();
 playerName = string.IsNullOrWhiteSpace(playerName) ? "Player" : playerName;
 
-string attackText = string.Empty;
-ConsoleColor attackTextColor = ConsoleColor.DarkGray; 
 int turns = 0;
 
 LevelData levelData = new LevelData();
-
 levelData.Load("Level1.txt");
 Console.Clear();
 
 Player player = new Player(levelData.PlayerStartX, levelData.PlayerStartY, playerName);
 levelData.PlayerPosition = player;
 
+
 while (true)
 {
+
     Console.CursorVisible = false;
     Console.SetCursorPosition(0, 0);
     Console.ForegroundColor = ConsoleColor.DarkGray;
     Console.WriteLine($"Name: {player.Name}\t-\tHP: {player.Health.ToString().PadRight(3)}/100\t-\tTurn:{turns.ToString().PadRight(4)}");
     Console.ResetColor();
+
+    if (player.Health <= 0)
+    {
+        Console.SetCursorPosition(0, 3);
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("GAME OVER");
+        Console.ResetColor();
+        Thread.Sleep(8000);
+        Console.Clear();
+        break;
+    }
 
     foreach (LevelElement element in levelData.Elements)
     {
@@ -32,10 +54,10 @@ while (true)
         if (distanceToSurroundingElements <= 5 || element.DiscoveredWall)
         {
             element.Draw();
-            if (element is Wall) 
-			{
-				element.DiscoveredWall = true; 
-			}
+            if (element is Wall)
+            {
+                element.DiscoveredWall = true;
+            }
         }
     }
 
@@ -50,51 +72,35 @@ while (true)
     player.Draw();
 
     ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-
-    string playerResult = player.PlayerUpdate(pressedKey, levelData);
-    if (playerResult != "")
-    {
-        attackText = playerResult;
-        attackTextColor = player.color;
+    if (pressedKey.Key == ConsoleKey.Escape) 
+    { 
+        return; 
     }
-	
+
+    player.PlayerUpdate(pressedKey, levelData);
     turns++;
 
     foreach (LevelElement element in levelData.Elements)
     {
         if (element is Enemy)
         {
-            if (((Enemy)element).WasInAFight) 
-            { 
-                continue; 
+            if (((Enemy)element).WasInAFight)
+            {
+                continue;
             }
 
-            string enemyResult = ((Enemy)element).Update(levelData);
-            if (enemyResult != "")
-            {
-                attackText = enemyResult;
-                attackTextColor = element.color;
-            }
+            ((Enemy)element).Update(levelData);
         }
     }
 
-    for (int i = levelData.Elements.Count -1 ; i >= 0 ; i--)
-	{
-		if (levelData.Elements[i] is Enemy && ((Enemy)levelData.Elements[i]).Health <= 0) 
-		{
-			levelData.Elements.RemoveAt(i);
-		}
-	}
-
-    Console.SetCursorPosition(0, 1);
-    Console.ForegroundColor = attackTextColor;
-    Console.WriteLine(attackText.PadRight(200));
-    Console.ResetColor();
-
-    if (player.Health <= 0)
+    for (int i = levelData.Elements.Count - 1; i >= 0; i--)
     {
-        Console.SetCursorPosition(0, 3);
-        Console.WriteLine("GAME OVER");
+        if (levelData.Elements[i] is Enemy && ((Enemy)levelData.Elements[i]).Health <= 0)
+        {
+            levelData.Elements.RemoveAt(i);
+        }
     }
 }
+
+
 

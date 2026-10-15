@@ -9,7 +9,7 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         }
 
-        public string PlayerUpdate(ConsoleKeyInfo pressedKey, LevelData levelData)
+        public void PlayerUpdate(ConsoleKeyInfo pressedKey, LevelData levelData)
         {
             int playerNextMoveX = xPosition;
             int playerNextMoveY = yPosition;
@@ -29,7 +29,6 @@ namespace Labb2_FridaKarlsson_NEU26G
                 case ConsoleKey.UpArrow:
                 case ConsoleKey.W:
                     playerNextMoveY--; break;
-                default: break;
             }
 
             if (MakeAMove(playerNextMoveX, playerNextMoveY, levelData))
@@ -47,14 +46,9 @@ namespace Labb2_FridaKarlsson_NEU26G
                     {
                         Attack((Enemy)element);
                         ((Enemy)element).WasInAFight = true;
-
-                        return Attack((Enemy)element);
                     }
                 }
-            }
-            
-            return string.Empty;
+            }            
         }
-
     }
 }

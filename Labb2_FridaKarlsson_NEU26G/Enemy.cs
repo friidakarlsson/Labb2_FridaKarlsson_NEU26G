@@ -10,6 +10,6 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         }
 
-        public abstract string Update(LevelData leveldata);
+        public abstract void Update(LevelData leveldata);
     }
 }

@@ -4,9 +4,10 @@ namespace Labb2_FridaKarlsson_NEU26G
 { 
     internal class Dice
     {
-        public int numberOfDice = 0;
-        public int sidesPerDice = 0;
-        public int modifier = 0;
+        public int numberOfDice { get; private set; }
+        public int sidesPerDice { get; private set; }
+        public int modifier { get; private set; }
+
         public Dice(int numberOfDice, int sidesPerDice, int modifier)
         {
             this.numberOfDice = numberOfDice;
@@ -26,8 +27,8 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public override string ToString()
         {
-            return $"({numberOfDice}d{sidesPerDice}+{modifier})";
-        }
+            return $"{numberOfDice}d{sidesPerDice}+{modifier}";
         }
     }
+}
 

@@ -25,25 +25,36 @@ namespace Labb2_FridaKarlsson_NEU26G
 
         public override void Draw()
         {
-            Console.SetCursorPosition(previousPositionX, previousPositionY + 4);
-            Console.WriteLine(' ');
+            if (xPosition != previousPositionX || yPosition != previousPositionY)
+            {
+                Console.SetCursorPosition(previousPositionX, previousPositionY + 4);
+                Console.Write(' ');
+            }
+
             Console.SetCursorPosition(xPosition, yPosition + 4); Console.ForegroundColor = color; Console.Write(character); Console.ResetColor();
             previousPositionX = xPosition;
             previousPositionY = yPosition;
         }
 
 
-        public string Attack(MovingElements target)
+        public void Attack(MovingElements target)
         {
-            string attackResultText = string.Empty;
+            string attackerNameUp = this is Player ? "You" : this.Name;
+            string attackerNameLow = this is Player ? "you" : this.Name;
+            string defenderNameUp = target is Player ? "You" : target.Name;
+            string defenderNameLow = target is Player ? "you" : target.Name;
+
             int attacker = this.AttackDice.Throw();
             int defender = target.DefenceDice.Throw();
             int damage = attacker - defender;
 
             if (damage > 0) { target.Health -= damage; }
 
-            string firstRound = Damage(damage);
-            attackResultText = $"{this.Name} {this.AttackDice.ToString()} attacked {target.Name} {defender.ToString()} {firstRound}";
+            string firstRound = Damage(damage, target);
+            Console.SetCursorPosition(0, 1);
+            Console.ForegroundColor = this.color;
+            Console.WriteLine($"{attackerNameUp} ({this.AttackDice}) attacked {defenderNameLow} ({target.DefenceDice}), {firstRound}".PadRight(Console.WindowWidth));
+            Console.ResetColor();
 
 
             if (target.Health > 0)
@@ -54,28 +65,29 @@ namespace Labb2_FridaKarlsson_NEU26G
 
                 if (damage > 0) { this.Health -= damage; }
 
-                string secondRound = Damage(damage);
-                attackResultText = $"\n{target.Name} {target.AttackDice.ToString()} hit back {this.Name} {this.DefenceDice.ToString()} {secondRound}";
-                return attackResultText;
-            }
-            return attackResultText;
-
+                string secondRound = Damage(damage, this);
+                Console.SetCursorPosition(0, 2);
+                Console.ForegroundColor = target.color;
+                Console.WriteLine($"{defenderNameUp} ({target.AttackDice}) hit back at {attackerNameLow} ({this.DefenceDice}), {secondRound}".PadRight(Console.WindowWidth));
+                Console.ResetColor();                
+            }   
         }
 
-        public string Damage(int damage)
+        private string Damage(int damage, MovingElements target)
         {
+            string it = target is Player ? "you" : "it";
+
             switch (damage)
             {
                 case <= 0:
-                    return ", but did not manage to make any damage.";
+                    return "but did not manage to make any damage.";
                 case <5:
-                    return ", slightly wounding it.";
+                    return $"slightly wounding {it}.";
                 case < 10:
-                    return ", moderately wounding it.";
+                    return $"moderately wounding {it}.";
                 case >= 10:
-                    return ", severly wounding  it.";
+                    return $"severly wounding  {it}.";
             }
-
         }
 
         public bool MakeAMove(int nextMoveX, int nextMoveY, LevelData leveldata)
