@@ -31,8 +31,7 @@ namespace Labb2_FridaKarlsson_NEU26G
             if (MakeAMove(enemyNextMoveX, enemyNextMoveY, leveldata))
             {
                 xPosition = enemyNextMoveX;
-                yPosition = enemyNextMoveY;
-               
+                yPosition = enemyNextMoveY;               
             }
             else
             {

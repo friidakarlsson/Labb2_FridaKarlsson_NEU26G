@@ -4,8 +4,10 @@ using Labb2_FridaKarlsson_NEU26G;
 
 Console.WriteLine("Write player name: ");
 string? playerName = Console.ReadLine();
-
 playerName = string.IsNullOrWhiteSpace(playerName) ? "Player" : playerName;
+
+string attackText = string.Empty;
+ConsoleColor attackTextColor = ConsoleColor.DarkGray; 
 int turns = 0;
 
 LevelData levelData = new LevelData();
@@ -18,10 +20,11 @@ levelData.PlayerPosition = player;
 
 while (true)
 {
-	Console.Clear();
     Console.CursorVisible = false;
     Console.SetCursorPosition(0, 0);
+    Console.ForegroundColor = ConsoleColor.DarkGray;
     Console.WriteLine($"Name: {player.Name}\t-\tHP: {player.Health.ToString().PadRight(3)}/100\t-\tTurn:{turns.ToString().PadRight(4)}");
+    Console.ResetColor();
 
     foreach (LevelElement element in levelData.Elements)
     {
@@ -47,57 +50,35 @@ while (true)
     player.Draw();
 
     ConsoleKeyInfo pressedKey = Console.ReadKey(true);
-	int playerNextMoveX = player.xPosition;
-	int playerNextMoveY = player.yPosition;
-		
-	turns++;
 
-	switch(pressedKey.Key)
-	{
-		case ConsoleKey.RightArrow:
-		case ConsoleKey.D:
-			 playerNextMoveX++; break; 
-		case ConsoleKey.LeftArrow:
-		case ConsoleKey.A:
-			 playerNextMoveX--; break; 
-		case ConsoleKey.DownArrow:
-		case ConsoleKey.S:
-			 playerNextMoveY ++; break; 
-		case ConsoleKey.UpArrow:
-		case ConsoleKey.W:
-			 playerNextMoveY --; break; 
-		default:  break;
-	}
-
-	if (player.MakeAMove(playerNextMoveX, playerNextMoveY, levelData))
-	{
-        player.xPosition = playerNextMoveX;
-        player.yPosition = playerNextMoveY;
-
-		levelData.PlayerPosition = player;
+    string playerResult = player.PlayerUpdate(pressedKey, levelData);
+    if (playerResult != "")
+    {
+        attackText = playerResult;
+        attackTextColor = player.color;
     }
-	else
-	{
-		foreach (LevelElement element in levelData.Elements)
-		{
-			if (element is Enemy && playerNextMoveX == element.xPosition && playerNextMoveY == element.yPosition)
-			{
-				player.Attack((Enemy)element);
-				((Enemy)element).WasInAFight = true;
-			}
-		}
-	}
+	
+    turns++;
 
-	foreach (LevelElement element in levelData.Elements)
-	{
-		if (element is Enemy)
-		{
-			if (((Enemy)element).WasInAFight) { continue; }
-			((Enemy)element).Update(levelData);
-		}
-	}
+    foreach (LevelElement element in levelData.Elements)
+    {
+        if (element is Enemy)
+        {
+            if (((Enemy)element).WasInAFight) 
+            { 
+                continue; 
+            }
 
-	for (int i = levelData.Elements.Count -1 ; i >= 0 ; i--)
+            string enemyResult = ((Enemy)element).Update(levelData);
+            if (enemyResult != "")
+            {
+                attackText = enemyResult;
+                attackTextColor = element.color;
+            }
+        }
+    }
+
+    for (int i = levelData.Elements.Count -1 ; i >= 0 ; i--)
 	{
 		if (levelData.Elements[i] is Enemy && ((Enemy)levelData.Elements[i]).Health <= 0) 
 		{
@@ -105,12 +86,15 @@ while (true)
 		}
 	}
 
+    Console.SetCursorPosition(0, 1);
+    Console.ForegroundColor = attackTextColor;
+    Console.WriteLine(attackText.PadRight(200));
+    Console.ResetColor();
 
-
-    if (player.Health <=0)
-	{
+    if (player.Health <= 0)
+    {
+        Console.SetCursorPosition(0, 3);
         Console.WriteLine("GAME OVER");
-		break;
-	}
+    }
 }
 
